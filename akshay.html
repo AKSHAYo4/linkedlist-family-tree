@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Family Tree</title>
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      margin: 0;
+      background: #fafafa;
+    }
+
+    .container {
+      display: flex;
+      padding: 50px;
+    }
+
+    /* Left Info */
+    .intro {
+      flex: 1;
+      padding: 20px;
+    }
+
+    .intro h1 {
+      font-size: 40px;
+      margin: 0 0 10px;
+      color: #222;
+    }
+
+    .intro p {
+      font-size: 18px;
+      color: #555;
+    }
+
+    /* Tree area */
+    .tree {
+      flex: 2;
+      text-align: center;
+      position: relative;
+    }
+
+    /* Card */
+    .person {
+      display: inline-block;
+      background: #fff;
+      border-radius: 20px;
+      padding: 15px;
+      margin: 20px;
+      width: 150px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+      transition: transform 0.3s;
+      vertical-align: top;
+    }
+
+    .person:hover {
+      transform: translateY(-5px);
+    }
+
+    .person img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 10px;
+    }
+
+    .name {
+      font-size: 16px;
+      font-weight: 600;
+      color: #333;
+    }
+
+    /* Vertical connector (parent to bar) */
+    .connector-vertical {
+      width: 2px;
+      height: 40px;
+      background: #bbb;
+      margin: 0 auto;
+    }
+
+    /* Horizontal connector (siblings bar) */
+    .connector-horizontal {
+      height: 2px;
+      background: #bbb;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    /* Sibling row */
+    .children {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      position: relative;
+      margin-top: 20px;
+    }
+
+    .children::before {
+      content: "";
+      position: absolute;
+      top: -20px;
+      left: 10%;
+      right: 10%;
+      height: 2px;
+      background: #bbb;
+    }
+
+    .children .person {
+      position: relative;
+    }
+
+    .children .person::before {
+      content: "";
+      position: absolute;
+      top: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 2px;
+      height: 20px;
+      background: #bbb;
+    }
+
+    /* Fun Background Shapes */
+    .shape {
+      position: absolute;
+      opacity: 0.15;
+      z-index: -1;
+    }
+
+    .star {
+      width: 120px;
+      height: 120px;
+      background: radial-gradient(circle, #ff6f61 40%, transparent 60%);
+      clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%,
+                         79% 91%, 50% 70%, 21% 91%, 32% 57%,
+                         2% 35%, 39% 35%);
+      top: 40px;
+      right: 100px;
+    }
+
+    .flower {
+      width: 140px;
+      height: 140px;
+      background: radial-gradient(circle, #00bcd4 40%, transparent 60%);
+      clip-path: polygon(50% 0%, 65% 35%, 100% 40%, 70% 60%,
+                         80% 100%, 50% 75%, 20% 100%, 30% 60%,
+                         0% 40%, 35% 35%);
+      bottom: 50px;
+      left: 50px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Title -->
+    <div class="intro">
+      <h1>Momma Susannah’s Family</h1>
+      <p>Get to know a family by following its descendants through the years.</p>
+    </div>
+
+    <!-- Tree -->
+    <div class="tree">
+      <!-- Root -->
+      <div class="person">
+        <img src="https://media.gettyimages.com/id/2151851004/photo/new-york-new-york-kris-jenner-attends-the-2024-costume-institute-benefit-for-sleeping.jpg?s=612x612&w=0&k=20&c=Pf_7kvX_IDDEJI-qlrU6Z3waIgMIm_o0GRtMP_x9rbw=" alt="Grandmother">
+        <div class="name">Momma Susannah</div>
+      </div>
+
+      <div class="connector-vertical"></div>
+
+      <!-- Children -->
+      <div class="children">
+        <div class="person">
+          <img src="https://www.shutterstock.com/image-photo/portrait-handsome-bearded-man-headphones-260nw-2383568109.jpg" alt="Uncle">
+          <div class="name">Uncle Walter</div>
+        </div>
+
+        <div class="person">
+          <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxMSEhUSExMVFRUXFxcXGBcYFxcXGBcXGBcWFxcaGhYYHiggGBolHRcVITEhJSkrLi4uFx8zODMtNygtLisBCgoKDg0OGhAQGy0mHyUtLi0rLSstLS0vLS01LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0rLS0tLS0tLS0tLf/AABEIALcBEwMBIgACEQEDEQH/xAAcAAAABwEBAAAAAAAAAAAAAAAAAQIDBAUGBwj/xABJEAACAQIDBQUEBgcFBQkAAAABAgADEQQhMQUGEkFRImFxgZEHE6GxIzJCUsHRFGJygpLh8DOTorLCFlNjc/EVJCVDVGSjw9L/xAAaAQACAwEBAAAAAAAAAAAAAAAAAQIDBAUG/8QALREAAgIBAwIEBgIDAQAAAAAAAAECEQMEITESQRMiUWEFMnGBsfBCkSPR8TT/2gAMAwEAAhEDEQA/AObrVMWKki0muI4ZMkSBDJjCPHxGARMOCmpYhRmTkB1Jym82dsWlSUAqrNbNiAc+dr6CVZcyxmzSaOeobrZLuYEw1M2W8GwqbU2qU1CuoJ7OQYDMi3WY1RyEePIpq0R1Ollp59Mvsb7d3D8OGQEfWBY/vG4+FpD21u+tThanwUzftnQcPWw538NYf+0VOk5osjAJ2OIWI7ItpkR8YzWxlPEkqvGbuiC7ELw3LMQl9eFWvccxMaWRS6uDtynp5Yli2bW1cboqdo7Dekpe6sg1IOYzAzB8eplPaX20MQ5wyZBKZa1gAC5BJLWXIKLADrrKIzZicmvMcPVRxxn5FSpClMSYoCJIlhmCEj4vGpT1Nz0Gvn0kfae0OC6r9Y8/u/zlGqkmwzJkWwstm2x0TLx/lG020181Fu64+d45sjZrMKxtmtNrDvJAvfzMqlpkmwkeoHdF7Q2kjc+Hxy+Mmg3mUdCMiLSXs/HGmbHNenTvEkmKzQGAGFe+cMSRIIxMcIiDAAQiYq0SRAAoVobEDWwgLDqIUIKCOLTY6AnwEcXBVDpTc+CsfwhQyMBDEmLsqudKFY+FKofwjq7ExR0wuI8qFU/6YUBWEQxFMpuQdRkb5EEZEEdYqjRZiFUFmYhQALkk5AADMkxANGCaD/YfaP8A6Ot6fzgjAyuFMlyDQ1k6RQBTa7nYFPd+9IDMSQL/AGQDbLv75iwJpNz69TjKDNLcTX5HQEd5yH/SVahNwdG74dKK1C6ld8fX1Nnwi97C+l7Z28YZg1gnNPUkHbWKFOg7HmpUDqzCw/PyMxOx6fFWpg3I4gT4L2j8AZuto4BKy8LjTMEZEHqDEbI2auHUqpJu17m19AAMvD4maMeVQg13ObqdJPNnjJ/KjA12uzMdSST1uSTEU3IIIJBGhBsR5iW+9XD+kNw9F4u5rflwynE3wfVFM8/mh0ZHG7pkrE42pUCh3LAXtflf56c5FimhWjSrgrlJydthiR8bW4ELdNPHlJQEp9vNkq21JPp/1g+BFNZmPMk59ZY4WgAnFq3yl5iMNTw+GQIgOIr9kZ3Kg6kd+du6/dNJuv7PLKGruQTbsDl3G8zSzxirZZHBJukUO7Lg0qi8TFnBW1rgXBF7DMyixGxqiktwNblYHTlynctm7m0aZ7Hcf6tLWrstVFrD0lL1FbpF/gXs2eacYTkCpUjqJFnZ96d2abqzBe/+YnPtl0l+mwtRQci6E6jrY+h8jLMeoU1ZXPTOL5I+x6vFTtzU28jp8j6TT7n4VauOw1OooZGqqGU5hhzBHSZbYVIq9ZDyQG1ujqB4ZMZpN2dorhsVQrsCy03DEDUjQ26nOa1ujOd/Xc/Z40wWH/ul/KOruvgRpg8P/dJ+Un7PxtOvTWrSYOji6sOY/A93KPxWwM7tzcvB4mi1L3NOkTmr00VWVhochmOoOs4fjd1MVTxYwXuy1Zj2LfVZfvhuSW1PLTWekok0xfisLgEA2zANiRfpkPSOwM5udufRwFHgstSq1jUqEDtHot/qqOQ8zmZoRSUfZA8hHIRiGEBDkDbe16WEotXrNwovqx5Ko5sYxuvtU4vC08QV4PeBm4dbDjYKL8zYCAFteC8KCAHNfaduH77ixeFX6UZ1aaj+1A+0o+/3c/HWb7N9xRhFGJxABxDDsrqKIPIdXPM8tBzJ30KFiBBM3tHfzZ9Cq1GriArobMOCo1j0uqkQ4UB5ipHOS1qxjCYV6nGVGSIzsb2AVRf4myjqWA5xuJMZNBm13OogUmbmzWPgoFh8T6zDURN5ujQZaNycmYkDoBlfzt8JTqX5DpfCleo47M0CaRcZVrRaPec89KMbRx6UV4nJ6AAXJPcJU4reUCmHpoe0xUcdhoAS1gTcdoDWVW821RWYIv1UJz6nS47pDxw4Uop0p8R8ajFvlwzZjwKl1cnD1PxCfVNY3su/v+2Ra9UszMxuSSSe8xpYZhLNpxG7e44Im0VEGAC7SsxqcVekP61lnIbIDiKR6cR/hzkZ/KOKt0abd3B/pGPdzmmHVUXpxnX0zHpOlYamZzzcDHstBjRoGrUeo7ubhUW5sAWOpsNBNbhd8ERuHEUXpHra4v4i4+M5eTHKUvodCE0omywgjePvGsFtelUAambiRdq7dpURxVL9AI3VUCu7I1ehcG4nKt8tmfo2KpV7fRseFu69wfgSZuKu81eubUKKqv330Hrr5AzO740sQ+HZa3u6inPjS4KHkSD9YX6WkccHGQ5vqiZRcPwV6un9mdABlxLnprlAIlMTxFWOr0AD+0tQKf8AKYc6kPlRz5/M6NbuHvk+z6nC13w7ntoMyp++g69Rz8Z3rBYtKqLUpsHRwCrA3BBnlhjNf7Pd9WwD+7e74Zzdl1NMnV0HzXnqM9ZNEDv0Ebw2IWoi1EYMjAMrA3BB0IMciGCQ9r7TpYak1eswREFyfkAObHQCL2jj6eHpNWqsERBdmP8AWZOgHOeft+N7qm0KtzdKKE+7p30/WbkXI9NBzJEhDe+O9NXaFbje60lv7qnfJR1PVzzPkO/tfs8Ftm4X/lA+pJnnRJ6P3DH/AIdhP+RTPqLxsZew4UBMQCMRXWmjO7BVUFmYmwAGZJPSc82v7R2r1BhdlUmrVW/81lIRRzIVrXt95rDTWbWlVw+OwxsRVoVkKnvByYHmCMx1BErtjYDA7PdMJQUJVrcTWuWqMqC5ZmOfCNByucucBHB95NlYmliaqYiz1uLidgwYMXAe98vvdBBLL2o7SI2piQDoUH/xU4UsoDGYXFladSkLWqFLm2ZFMkhb8lLFWPfTTviUpZxOETP+vKTuGVIk6Dw9IswUakgDxJsPnOnUKIRVQaKAB5C0w+6lDixCm1wgLeeg+J+E3kx6qVtRO/8ACMVQlP12/oKKpjOCn2hcaZ/A2PxiMdVFOk7nkpPnbL4zMlbo60pJR6jnlReJ7Lzaw8zlJO1mvWe2ikKPBAFH+WDY6fTITot3PggL/hIt7m51JJ851v5fv72PHN/4/q/x/wBCYRIEU0ISRUKMTeKtCEABF7fwnuHp5MD7mqxvY3NjmpHIi2URNXvPTGJ2auJFuKnS4W8bMjepA+EpzNqvQtxpOyjwe0MVQwdBaFBipHEzAZG5LHPrLDCVMYxFN1pstzeoWCgKVDKObcV7rmn8tnudTU4WijAG1NB/hE0FHZFEHi92t9bkX+cxeJu9ka/D43ZQ7uYBqZU6K9srWIPfmR6RzbuzmdzbMKL2tcnwHX85c1XAqADlaFVqD3tzlylDluWI5fvBSxPEEpugpdi5Fiy/W41YMCztmM04R3dG9jYLHszF+E0uV8su4Z+Yvz1nWa+yqT5mmhPeoMr9q0wqWAAt00ls8rqqRGGPzXbOP7FwzJjatNaa1CqFUDZorOVIZgdQLtl1I8YNo0Pd1XQ27LEZZDI8pd7PxCJtGu7ZBaSv/AwJHjYTP18QXdnbVmZj4sSTNeBuUm/ZGbMlGNL1Yy0AgMITUZjb+zzfdsC/uapLYZjnzNJjq6j7vVfMZ3v26vtGklE4hqiikF4/eX7PDa4IPO/LxnlsmTKu1qzUFwxqsaKsXWnfshjz8NTbS5JioC+373yfaFSwumHQ/Rp15cb/AKx6cgfGZQmC8ImMAxPSm5S22fhB/wC3pf5BPNQlzR3qxqIqLi6yooCqocgBQLAC0QHpaIq5KfA/Keam3oxx1xeI/vqg+RjFTbuLOuKxB8a1X/8AUKAstzt8q+z2Y0wHpuO1SYkLxWyYEaEc+oy6EX3swx9XFbY99WYvUalVYn+EAAclF7ATnscpuVzUkHqCR8owos/aIOLaWLJ/3rD0sPwglUWvmTc+sELFRTYHEnjAP2u4DPlpLYzPo1nXuI+c02Dw5qOtNdWNvLn8LyN0hwTk6Rr91cD7uiHI7VTtfu/Z+GfnJ22Md7mkzfaOS/tH8tfKS0WwAGgyExm8GN99X4Qeyp4R4/aPrl5Tn44+Lktnp9RNaXTqMeeF/s2GwaRXD0gdeEH17X4yJvbW4aFr/WYDxAuT8hLmmnCAo0AA9MpjN7sVx1uAaILfvHM/6R5QwrqyX9xa2fg6Xp9q/fsQMELU678+AIP32A/yhpDWTanZw6jm9QnypqAPi7SEs6Ee7PO5NlFe353/ABQDChkQgJIqFERMWY2YDDvLPBY22FxdJmAU0XYXNhxcPDbvJPBYdfGVkYNyTpYA6i9yQR8L+tjIzj1Khp0zp26mPU0aZB+wvyEv621WYimmp1PJR1PU9BOb7lkvh6ZB4TmhvpdSQPhaaGpjqmFzNKpUBIuUW9ychfoJypRak0jpxknFMsq+31o1bOlQKMjUKMKeWf17W+Mj1N7Kdatw0qT1QOaLxKCdLtoJY4GriKtv+5OVbrwjW/Mt+qdR+EdqUsQgHusEVU3sOwuhAN+0LZnpJdG3AlJXyv7JH6e1O1/qnn0PSVO29rqFNzIP6Viq9VqJoGmFHbcsjKO4WOZ55d0rdt7NC9l2LWFz0/r8pW4u6ZZFrsYSrjy2IqtyYD0vcDw0PkI4HEgCxd36sbW6CS8RRKHuYB1PVW0PzBHIgjlOrjVRo5c3cmO3gEiGpbnF08ReTsgSOUTE+8g95HYC4UHFeAwABhRUKIAoZEAgMACtBBABAAoUVaFADMXzmmRyMxkdQRkR5zMS+qVrBe8D5SKIo0NHeauF4TwsbW4iM/HIgfCV+FS5GfMZk98iU5Mp6QjCK4RdPPOddbujpRxtK1/eJbrxL+c59jT9I9m4u03a+9mc/ORfeRaGQxYVjbpmnVa16hJNVRL2g4tSUEELTF+faZizeeYHlIiQrwKeUtSoySl1OxUSDFERIjICmiIomJgMVIuHbJgdQzA+tx8LSVIWJUqSyi/EBfuI5+nyiYGj3Hxa02em31KjcSn7rcvCdJp/SUrDUZeY/Azkew8Lx0ja/FfLxFjNdutt5kf3VXI5C/IkaH8D3znZ4+e0bsLuCNNs7az0yF981Ij7LBWQ66XHERnyPTSPbW2qSOFsU9S97JTHBe/7Kq9pKbAo9iLEHO3KKbZKIOzYdwFpDrlXJelC7ogbOuqG4sW5dB08ZhN79qfWVT2nv5IMv68ZrN6tqphaF73Y6DmSchOPYzaBbjJPabs+A1tDDDqlbIZp9MWw6IFhaFRa4JvqTbw7vn5xCXZQNL5E35eHWOVOgnSOcNObwIbQWiRACbTaGYzSMeEkIUsWDG7QrwAfhGKEI5xgEDAYBDMQCbwQ4LQAL0ghmCMDKx+lVNxfl+EYilMrIouqGLk39JFpTU4/eSskTlq30Ml05T0znLDDufGNMKJB1hUzGy0XR6xgOtEiHBaAAiTHLReFwj1DamhY9w+Z5RNpchV8DUT+jNUIRFLMxyAmr2duc7WNVuEdFzProPjNXs3YlKgLoov1OZPmZlyauEdo7svjgk92Y5dlHDLRAzOfEerEE+l1A85c4vYq1hcDtW5ZE9PAydtvDFqbFRcrZh5ENbztbzkrYyk0qbc+AX8QLfhMbm5bmpKuDL09562CHBWDPTGjgZjuYROO9pVK3YDE9LW+Jmt2tsenWB4hrr3+ImRf2b0i1xVYL92w+fL0k109wUmZLE4uvjqhqMCbZKo0F9M+XeegjG2NmFKY4RcU/rt1ZtT62E6T/wBiCinAgAA0A69STHE2UvuzTK3DCzA8763kfGp7cE5Y1KJyXCaRVTWavaG5NWnnSIdeSk2YeejfDzmYxNFkYqwKsNQRYjxBnQhkjNeVnPlCUeRiJvFEwlkyA5TkgSPTklI0IMiFFRMYDtPSHaFSijGAQEBhwGABCHaEBFQAQSYId+6CAzK2gEeqtyjIlbIInYY5R8SPhDlHxAkHaT8KcpBkvCNlGgJDQ6RiTLndnY/v34m+ouveel/nCUlFWyUYuTpDeD2dVq/UQnv0HqZb4bc+qfrsqjuBb8pu9nYEAAKuQ5AScKNsrTnz1k+2xtjp4LkyWB3Vorm13P62noMvW8vaFJVFlAAHIC3wlgcLeLOEAmWeSU+WXRjGPBGRhDc3yjrUhELRJ0kaGNrRuDHadAKFsLDpHVpuOUfpobZiSRFoRUoi3KKTDAAmP1LEgxdVgVk+oj0lM9G+ZjNOjmRJmLq2GkhrWEqbLUh40RzlZtjYNLELw1EDdDow8GGYlj76AVZFNp2htWtzl22txq1O7UT7xemjgfJvh4TKvTKkqwIYagggjyOYnfSt9ZX7S2JSri1RFccrjMeB1HlNuPWNfMZZ6ZP5TiSiSkm12tuCBc0HKn7r5r5MMx53mRxOEekxp1FKsOR5jqCNR4TdjyxnwzLPHKHI3aJIijEy0rF0o4Y2sdjAK0DQ4RgAQhmBRAYAFaCFeCAGYCczEGGz3iZAgS8LpJMh4UyWDETDMl4NpC4pLwZjQEu1zlmT8+U6ju3s/wB1TVOgz7ycyfWc83dph8VTTW3bPcBp8SJ1zAJYTJq58RNemjzIvNmILZyRWoDWQKJtJIrTHtRf3DtaMVnjeNxyU1L1HVFGrMQoHmZgtr+0encphUNVgbcbAimNRcAdp/h4wjjlN+VCc1Hlm4IvG8btihhherVp0/22AJ8BqfKcm3n2xiyO1i2UH7FMhB4Xp5nzMxbqCSTdieZP56zRHSNcsqnqPRHasX7VMBT+qatX9inYetQrMvtH2xV2ZvcYemq/ZNQsx8SFIHly6mczeIAzE0RwQRnlnmdU2H7WWL8OMp0wn3qXECvipLcd8tCLZ6zNYn2ibR94WXEWUklQKdPhtnbIrf1mewSAnMBr5/snlex05WJz7pEfxzzPK2vdGsME7oi802uTpOwfalU+pjKfvf8AiUwqt5pkreIt5zcbO2vhMQQKdQcR+wwKP5K1ifK88/qZa4LGWN2HEL35W65jpIT0sJexdj1Mo+53qphrQqVOxmK2LtxgpKObC1ka7pyBA5rne1iBrrNDsbeWjXc0rhKykg0yRnbIlG0cfHqBMOXTTx+6NcM8Z/U0dNYo0YzTqSZSeUrcmyLVw1xMrvRsZayEWswuVbofyM2lRpT7TXIyxNwaaFXUqZxWotiQciDY9x5xBlnvHRC137+1bx/mDKydmMupJnMlHpbQoR1Y0I4JMiKMKAQoAGBATCEM9IAJtBARDgBl1IjZMfdABI8gyA7h9ZLkOhrJSwRJCpJwesjR/Cta8Y2SNl7eOExL1AgcHskE20toeWYm+wftQwgHapVwegVCPXjHynI2N84UpnijN2yUM0oqkdcr+1mmTalQa1j2qhHTLsLr/EJVJv7i661iaq0wMkCAIL5m9zdr2HXnOcSUj/RHrxrn4K9/mIRwwXYHmm+5P27tNsRVUszNb7zM2p6nyidmIzXC9R+MrqBu6/tD5yx2W1g1u74XlqIJ2y7rYIqnbIv0yNvPr4ZTPYpQDlnJ9V6jaXPlK6qjXtbOJkiM+sJRr4fkPxi3p2gogczYEgE2vYZ3sOemkCDLjBKFJ96rAcABCcA4rqLA8PPMG+pBOWcozkc+WXL8Je4DZod+FajcOYuV4fqDMsinpfUg8++U4ogpxcfazuhBHZGjA6Hnl3RdxtbIQo5R/CnO17RqnqPKOvQtoYwRJRmpm6MfXL00MjVcSxfjJzve/O40005aRDkxkHOA2brdff6tQAp1iayXAFz9IAejnJvBvWdR2HvBQxS8VGoGtqNGXxU5jx0nnOoc5Jw+Oemg4GZGD8QZSVYG1j2hn0+PWZ8mmjLdbMuhqJR2e6PTXHeQcdpOY7te1FkATFoXHKoluP8AeQ2DeIt4GbGlvhgqwumIQHo592fR7X8pjlhnHlGuGaEuGYT2g/R1ab9QynpYWOnXMkeBlKDNH7SQtSijKymzjQg5EEcplsHfgA6ZemU6GnfkRkzr/IySgjt4lRDmgpDggWAiAAAhkQrQ2MACtBCEOAGWrE3jUXxGFwHWQZAOjrJayJSOclrBDQYjqtwqx7ogxFUXUwGyDBBBERBHqtQcCKOXET+0Tb5KvxjMEAF0nsQehBllg24SR5ehlVLDQ+P4xoaLJK7HK/8AXlI9FC13PM/AZCPYJL5Sz2JhOOmMsxdSOjA2IgyS5M/jadref4SPTsvCWHELgkXIv3XGY1lxvDhuB1Xu/G34ReEwtQFKlJGLdrh4V4jYCxYZEDpfTIGAmQ8M6W4ALLVcKW6KNQgbP7X1iRrpGTWp3K1KZLXyfiI0uPq2sV0tpaTVq3rEVgTwgq1zmCbXuQOyeVyMrSViMBX42WnTDLVYW/syHyuSAQCCMsxpnI8Mk1sjOUxp/XMyUyQqtAoSpFiKjrboVK3HxkqtTteMSK2tGU1j2IjdEawEwqwz9Iqkl1f9UBv8QX/UIitqYqhWK3t9pSpv0MCI1BDMKAAmmw4sAO4TNIMxNPgaD1W4UXiIF+QyyzzPeI00t2ThFydJbjohiTk2Dif93/iT849T3exH3B/Ev5xeLD1RpWkzv+D/AKKwQpdLuziDyT+IRrG7Ar00LsAQNbG5A62tpDxYPawekzpW4MqhAYLQyOXOWGcRBNDQ3UqsoJZFJ+yb3HjbnBKfHx+prWg1D36Pwc7v4D1iK0EEsZgNbgvZtjqjAD3QvmLv+Qlwnsj2h97D/wB4/wCFOCCV4pOStls4KLpDy+yDHc6uGH79Q/8A1zNb8boVtm+6FV6birx24C2Xu+C4PEB99YIJMizJwQQREAzCgggAJNOinuHwyggjQF1sbOw/r1mnw2x6nEamHqBGb6ysOJGI0NtVPeOkEEl2Jood5sLWFYLXKX4FP0YIHCS2Wfn+c0u3ti1axFOgRdUZgL8FgKjIQDy1XyFoIIUBmNgVBhqxdqS1iim6k8IpkWAJJB4xa2ktqmDP6RRxAeihIduFKbAJTVjUYpqAcqg/eOt4cEqivMyTflRQbcoWWjUOTVuOsbf8Vww/w8Mi4x8zDgkmRRT1misPoT/WUEEER7jEMQQQEOYhbGNQQQYC6Iuw8ZtNy/7Zj+of8ywoJXm+Rm74d/6IfU3VKpJAggnNR69iw8cV7woIxGR3l2IKV6tPJCe0v3SencenLw0n7ubECAVqgBc5qNQoOh8flBBNEssnjo5uPSYlqXJLsn99zQwQQTOdI//Z" alt="Mother">
+          <div class="name">Susannah Jr.</div>
+        </div>
+
+        <div class="person">
+          <img src="https://images.unsplash.com/photo-1574158622682-e40e69881006?crop=faces&fit=crop&w=100&h=100" alt="Pet">
+          <div class="name">Mr. Whiskers</div>
+        </div>
+      </div>
+
+      <!-- Grandchildren -->
+      <div class="connector-vertical"></div>
+      <div class="children">
+        <div class="person">
+          <img src="https://t3.ftcdn.net/jpg/02/01/12/36/360_F_201123699_GBrrMt3qbSgHK6maXU7StZd8jSDX7N3E.jpg" alt="Grandchild">
+          <div class="name">Liam Harper</div>
+        </div>
+
+        <div class="person">
+          <img src="https://www.shutterstock.com/image-photo/closeup-portrait-child-funny-little-600nw-423125074.jpg" alt="Grandchild">
+          <div class="name">Oscar Walter</div>
+        </div>
+
+        <div class="person">
+          <img src="https://cdn.cdnparenting.com/articles/2018/07/90158839-H.webp" alt="Grandchild">
+          <div class="name">Katherine Susannah</div>
+        </div>
+
+        <div class="person">
+          <img src="https://www.shutterstock.com/image-photo/beautiful-fashionable-two-year-old-260nw-2393895725.jpg" alt="Grandchild">
+          <div class="name">Isabella Harper</div>
+        </div>
+
+        <div class="person">
+          <img src="https://hips.hearstapps.com/hmg-prod/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=0.752xw:1.00xh;0.175xw,0&resize=1200:*" alt="Grandchild">
+          <div class="name">Charlie the Dog</div>
+        </div>
+      </div>
+
+      <!-- Decorations -->
+      <div class="shape star"></div>
+      <div class="shape flower"></div>
+    </div>
+  </div>
+</body>
+</html>
